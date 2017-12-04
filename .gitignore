@@ -1,9 +1,13 @@
-#compiled source
-
-
+#compiled source in donghee folder
 .project
 .settings
 .classpath
 .project
 .springBeans
 target
+#compiled source with git folder
+
+.metadata
+.recommendars
+RemoteSystemsTempFiles
+Servers
