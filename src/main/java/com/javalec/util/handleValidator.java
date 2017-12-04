@@ -1,6 +1,7 @@
 package com.javalec.util;
 
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.javalec.model.Student;
@@ -21,21 +22,20 @@ public class handleValidator implements Validator {
         // TODO Auto-generated method stub
 
         StudentValid student = (StudentValid) obj;
-
+        /*
         String name = student.getName();
 
         if (name == null || name.trim().isEmpty()) {
             erros.rejectValue("name", "trouble");
-        }
+        }*/
+        
+        ValidationUtils.rejectIfEmptyOrWhitespace(erros, "name", "trouble");
 
-        
-        
         int id = student.getId();
         if (id == 0) {
             erros.rejectValue("id", "trouble");
         }
-        
-        
+
         System.out.println("getMethod" + obj.getClass().getMethods());
 
     }
