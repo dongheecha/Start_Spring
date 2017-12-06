@@ -19,8 +19,10 @@ public class BDao {
 
     public BDao() {
         try {
-            Context context = new InitialContext();
-            dataSource = (DataSource) context.lookup("java:comp/env/jdbc/simple_spring");
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/mysql");
+
         } catch (NamingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -70,6 +72,118 @@ public class BDao {
             }
         }
         return dtos;
+
+    }
+
+    public void write(String bName, String bTitle, String bContent) {
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = dataSource.getConnection();
+
+            String query = "insert into mvc_board (bName, bTitle, bContent,bDate, bHit, bGroup, bStep, bIndent) "
+                    + " values(?,?,?,now(),0,(( select max(bId) + 1 from mvc_board a)),0,0)";
+            pstmt = conn.prepareStatement(query);
+
+            pstmt.setString(1, bName);
+            pstmt.setString(2, bTitle);
+            pstmt.setString(3, bContent);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public BDto contentView(long bId) {
+
+        BDto dto = null;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dataSource.getConnection();
+
+            String query = "select  bId,  bName,  bTitle,  bContent,  bDate,  bHit, "
+                    + " bGroup, bStep, bIndent from mvc_board" + " where bId = ?  ";
+            pstmt = conn.prepareStatement(query);
+
+            pstmt.setLong(1, bId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dto = new BDto(rs.getLong("bId"), rs.getString("bName"), rs.getString("bTitle"),
+                        rs.getString("bContent"), rs.getTimestamp("bDate"), rs.getInt("bHit"), rs.getInt("bGroup"),
+                        rs.getInt("bStep"), rs.getInt("bIndent"));
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return dto;
+
+    }
+
+    public void updateHit(long bId) {
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = dataSource.getConnection();
+
+            String query = "update mvc_board set bHit = bHit + 1  where bId = ?  ";
+            pstmt = conn.prepareStatement(query);
+
+            pstmt.setLong(1, bId);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 }

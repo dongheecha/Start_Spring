@@ -20,11 +20,13 @@ public class BContentService implements BService {
         
         Map<String, Object> map = model.asMap();
         HttpServletRequest request  = (HttpServletRequest) map.get("request");
-        String bld = request.getParameter("bld");
+        long bId = Long.parseLong(request.getParameter("bId"));
         
-      /*  BDao dao = new BDao();
-        BDto dto = dao.contentView(bld);*/
+        BDao dao = new BDao();
+        dao.updateHit(bId);
+        BDto dto = dao.contentView(bId);
         
+        model.addAttribute("contentView", dto);
         
     }
 

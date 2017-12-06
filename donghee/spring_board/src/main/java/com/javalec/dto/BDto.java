@@ -31,6 +31,20 @@ public class BDto {
         this.bIndent = bIndent;
 
     }
+    
+    public BDto(String bName, String bTitle, String bContent, Timestamp bDate, int bHit, int bGroup,
+            int bStep, int bIndent) {
+        
+        this.bName = bName;
+        this.bTitle = bTitle;
+        this.bContent = bContent;
+        this.bDate = bDate;
+        this.bHit = bHit;
+        this.bGroup = bGroup;
+        this.bStep = bStep;
+        this.bIndent = bIndent;
+
+    }
 
     public long getbId() {
         return bId;
