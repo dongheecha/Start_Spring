@@ -5,23 +5,33 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.sql.DataSource;
-
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.javalec.dto.BDto;
-import com.javalec.util.Constant;
+
 
 public class BDao {
 
-    DataSource dataSource;
-    JdbcTemplate template = null;
-
+    JdbcTemplate template;
+    PlatformTransactionManager transactionManager;
+    
+    public void setTemplate(JdbcTemplate template) {
+        this.template = template;
+    }
+    
+    public void setTransactionManager( PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
+    
     public BDao() {
-        template = Constant.template;
+        System.out.println(template);
     }
 
     public ArrayList<BDto> list() {
@@ -55,14 +65,46 @@ public class BDao {
         });
     }
 
-    public BDto contentView(long bId) {
+    public BDto contentView(final long bId) {
 
-        updateHit(bId);
+        TransactionDefinition definition = new DefaultTransactionDefinition();
+        TransactionStatus status = transactionManager.getTransaction(definition);
 
-        String query = "select  bId,  bName,  bTitle,  bContent,  bDate,  bHit, "
-                + " bGroup, bStep, bIndent, deleteFlag from mvc_board where bId =  " + bId;
+        // updateHit(bId);
 
-        return (BDto) template.queryForObject(query, new BeanPropertyRowMapper<BDto>(BDto.class));
+        BDto dto = null;
+        
+        try {
+
+            String query1 = "update mvc_board set bHit = bHit + 1  where bId = ?  ";
+
+            template.update(query1, new PreparedStatementSetter() {
+
+                @Override
+                public void setValues(PreparedStatement pstmt) throws SQLException {
+                    // TODO Auto-generated method stub
+                    pstmt.setLong(1, bId);
+                }
+
+            });
+
+       
+            String query2 = "select  bId,  bName,  bTitle,  bContent,  bDate,  bHit, "
+                    + " bGroup, bStep, bIndent, deleteFlag from mvc_board where bId =  " + bId;
+
+            dto = (BDto) template.queryForObject(query2, new BeanPropertyRowMapper<BDto>(BDto.class));
+
+            transactionManager.commit(status);
+
+            
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            transactionManager.rollback(status);
+        }
+        
+        return dto;
     }
 
     public void updateHit(final long bId) {

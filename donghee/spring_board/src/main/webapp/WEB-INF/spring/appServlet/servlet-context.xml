@@ -22,7 +22,9 @@
 	</beans:bean>
 	
 	<!-- 이 패키지 이하의 있는 녀석들을 스캔해서 @controller 어노테이션 붙은 녀석을 컨트롤러로 생각해서 @RequestMapping이라고 붙인 애들을 request가찾는다. -->
-	<context:component-scan base-package="com.javalec.controller" />
+	
+	
+	<context:component-scan base-package="com.javalec.controller, com.javalec.dao, com.javalec.service" />
 	
 	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	   <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"></beans:property>
@@ -31,9 +33,18 @@
 	   <beans:property name="password" value="tester123@"></beans:property>
 	</beans:bean>
 	
-	<beans:bean name ="template" class="org.springframework.jdbc.core.JdbcTemplate">
-	   <beans:property name="dataSource" ref="dataSource"></beans:property>
-	</beans:bean>
+	<beans:bean name="template" class="org.springframework.jdbc.core.JdbcTemplate">
+        <beans:property name="dataSource" ref="dataSource" />
+    </beans:bean>
+    
+    <beans:bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <beans:property name="dataSource" ref="dataSource" />
+    </beans:bean>
+    
+    <beans:bean name="dao" class="com.javalec.dao.BDao" >
+        <beans:property name="template" ref="template" />
+        <beans:property name="transactionManager" ref="transactionManager" />
+    </beans:bean>
 	
 	
 </beans:beans>
