@@ -83,7 +83,7 @@ public class BDao {
         try {
             conn = dataSource.getConnection();
 
-            String query = "insert into mvc_board (bName, bTitle, bContent,bDate, bHit, bGroup, bStep, bIndent) "
+            String query = "insert into mvc_board (bName, bTitle, bContent,bDate, bHit, bGroup, bStep, bIndent, deleteFlag) "
                     + " values(?,?,?,now(),0,(( select max(bId) + 1 from mvc_board a)),0,0,0)";
             pstmt = conn.prepareStatement(query);
 
@@ -255,4 +255,121 @@ public class BDao {
             }
         }
     }
+
+    public BDto replyView(long bId) {
+        // TODO Auto-generated method stub
+
+        BDto dto = null;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dataSource.getConnection();
+
+            String query = "select  bId,  bName,  bTitle,  bContent,  bDate,  bHit, "
+                    + " bGroup, bStep, bIndent, deleteFlag from mvc_board" + " where bId = ?  ";
+            pstmt = conn.prepareStatement(query);
+
+            pstmt.setLong(1, bId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dto = new BDto(rs.getLong("bId"), rs.getString("bName"), rs.getString("bTitle"),
+                        rs.getString("bContent"), rs.getTimestamp("bDate"), rs.getInt("bHit"), rs.getInt("bGroup"),
+                        rs.getInt("bStep"), rs.getInt("bIndent"), rs.getInt("deleteFlag"));
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return dto;
+    }
+
+    public void reply(long bId, String bName, String bTitle, String bContent, int bGroup, int bStep, int bIndent) {
+        // TODO Auto-generated method stub
+
+        replyShape(bGroup, bStep);
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = dataSource.getConnection();
+
+            String query = "insert into mvc_board (bName, bTitle, bContent,bDate, bHit, bGroup, bStep, bIndent, deleteFlag) "
+                    + " values(?, ?, ?, now(), 0, ?, ?, ?, 0)";
+            pstmt = conn.prepareStatement(query);
+
+            pstmt.setString(1, bName);
+            pstmt.setString(2, bTitle);
+            pstmt.setString(3, bContent);
+            pstmt.setInt(4, bGroup);
+            pstmt.setInt(5, bStep + 1);
+            pstmt.setInt(6, bIndent + 1);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void replyShape(int strGroup, int strStep) {
+        // TODO Auto-generated method stub
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = dataSource.getConnection();
+            String query = "update mvc_board set bStep = bStep + 1 where bGroup = ? and bStep > ?";
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, strGroup);
+            pstmt.setInt(2, strStep);
+
+            int rn = pstmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
