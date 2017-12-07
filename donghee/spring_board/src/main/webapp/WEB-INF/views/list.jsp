@@ -18,14 +18,17 @@
 			<td>히트</td>
 		</tr>
 		<c:forEach items="${list}" var="dto">
-			<tr>
-				<td>${dto.bId}</td>
-				<td>${dto.bName}</td>
-				<td><c:forEach begin="1" end="${dto.bIndent}">-</c:forEach> <a
-					href="contentView?bId=${dto.bId}">${dto.bTitle}</a></td>
-				<td>${dto.bDate}</td>
-				<td>${dto.bHit}</td>
-			</tr>
+            <c:if test="${dto.deleteFlag eq 0}">
+				<tr>
+	
+					<td>${dto.bId}</td>
+					<td>${dto.bName}</td>
+					<td><c:forEach begin="1" end="${dto.bIndent}">-</c:forEach> <a
+						href="contentView?bId=${dto.bId}">${dto.bTitle}</a></td>
+					<td>${dto.bDate}</td>
+					<td>${dto.bHit}</td>
+				</tr>
+            </c:if>
 		</c:forEach>
 		<tr>
 			<td colspan="5"><a href="writeView">글작성</a></td>

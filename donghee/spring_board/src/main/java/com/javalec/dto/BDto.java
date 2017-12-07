@@ -13,13 +13,14 @@ public class BDto {
     int bGroup;
     int bStep;
     int bIndent;
+    int deleteFlag;
 
     public BDto() {
 
     }
 
     public BDto(long bId, String bName, String bTitle, String bContent, Timestamp bDate, int bHit, int bGroup,
-            int bStep, int bIndent) {
+            int bStep, int bIndent, int deleteFlag) {
         this.bId = bId;
         this.bName = bName;
         this.bTitle = bTitle;
@@ -29,6 +30,7 @@ public class BDto {
         this.bGroup = bGroup;
         this.bStep = bStep;
         this.bIndent = bIndent;
+        this.deleteFlag = deleteFlag;
 
     }
     
@@ -118,4 +120,13 @@ public class BDto {
         this.bIndent = bIndent;
     }
 
+    public int getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(int deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    
 }
