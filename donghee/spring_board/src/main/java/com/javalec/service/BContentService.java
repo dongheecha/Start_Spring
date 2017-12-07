@@ -23,7 +23,6 @@ public class BContentService implements BService {
         long bId = Long.parseLong(request.getParameter("bId"));
         
         BDao dao = new BDao();
-        dao.updateHit(bId);
         BDto dto = dao.contentView(bId);
         
         model.addAttribute("contentView", dto);

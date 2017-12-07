@@ -2,6 +2,8 @@ package com.javalec.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +17,19 @@ import com.javalec.service.BModifyService;
 import com.javalec.service.BReplyService;
 import com.javalec.service.BReplyViewService;
 import com.javalec.service.BWriteService;
+import com.javalec.util.Constant;
 
 @Controller
 public class BController {
 
     BService service;
+    public JdbcTemplate template;
+
+    @Autowired
+    public void setTemplate(JdbcTemplate template) {
+
+        Constant.template = template;
+    }
 
     @RequestMapping("/list")
     public String list(Model model) {
