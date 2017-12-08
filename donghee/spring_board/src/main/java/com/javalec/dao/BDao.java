@@ -20,6 +20,7 @@ import com.javalec.dto.BDto;
 public class BDao {
 
     JdbcTemplate template;
+    
     PlatformTransactionManager transactionManager;
     
     public void setTemplate(JdbcTemplate template) {

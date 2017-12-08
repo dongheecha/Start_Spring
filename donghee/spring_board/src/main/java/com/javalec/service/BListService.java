@@ -15,18 +15,12 @@ import com.javalec.impl.BService;
 public class BListService implements BService {
 
     
-    @Autowired
-    private BDao dao;
-
-   
-    public BListService() {
-        System.out.println("bDao : " + dao);
-    }
-
     @Override
     public void execute(Model model) {
         // TODO Auto-generated method stub
 
+        BDao dao = new BDao();
+        
         ArrayList<BDto> dtos = dao.list();
 
         model.addAttribute("list", dtos);
