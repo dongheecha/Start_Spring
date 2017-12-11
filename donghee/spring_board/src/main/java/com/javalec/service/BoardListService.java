@@ -7,21 +7,21 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.javalec.dao.BDao;
-import com.javalec.dto.BDto;
-import com.javalec.impl.BService;
+import com.javalec.dao.BoardDao;
+import com.javalec.dto.BoardDto;
+import com.javalec.impl.BoardService;
 
 @Service
-public class BListService implements BService {
+public class BoardListService implements BoardService {
 
     
     @Override
     public void execute(Model model) {
         // TODO Auto-generated method stub
 
-        BDao dao = new BDao();
+        BoardDao dao = new BoardDao();
         
-        ArrayList<BDto> dtos = dao.list();
+        ArrayList<BoardDto> dtos = dao.list();
 
         model.addAttribute("list", dtos);
 

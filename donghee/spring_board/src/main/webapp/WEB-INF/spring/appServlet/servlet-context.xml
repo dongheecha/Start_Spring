@@ -34,6 +34,15 @@
 	<beans:bean name ="template" class="org.springframework.jdbc.core.JdbcTemplate">
 	   <beans:property name="dataSource" ref="dataSource"></beans:property>
 	</beans:bean>
+	<!-- 
+	<beans:bean name="transactionTemplate" class = "org.springframework.transaction.support.TransactionTemplate">
+	   <beans:property name="transactionManager" ref ="transactionManager"></beans:property>
+	</beans:bean>
+	 -->
 	
+	<beans:bean name="dao" class="com.javalec.dao.BoardDao">
+	   <beans:property name="template" ref="template"></beans:property>
+	   <!-- <beans:property name="transactionTemplate" ref="transactionTemplate"></beans:property> -->
+	</beans:bean>
 	
 </beans:beans>

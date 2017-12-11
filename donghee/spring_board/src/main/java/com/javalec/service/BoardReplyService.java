@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
-import com.javalec.dao.BDao;
-import com.javalec.impl.BService;
+import com.javalec.dao.BoardDao;
+import com.javalec.impl.BoardService;
 
-public class BReplyService implements BService {
+public class BoardReplyService implements BoardService {
 
     @Override
     public void execute(Model model) {
@@ -26,7 +26,7 @@ public class BReplyService implements BService {
         int bStep = Integer.parseInt(request.getParameter("bStep"));
         int bIndent = Integer.parseInt(request.getParameter("bIndent"));
 
-        BDao dao = new BDao();
+        BoardDao dao = new BoardDao();
         dao.reply(bId, bName, bTitle, bContent, bGroup, bStep, bIndent);
 
     }

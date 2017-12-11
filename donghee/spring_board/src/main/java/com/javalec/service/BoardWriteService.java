@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
-import com.javalec.dao.BDao;
-import com.javalec.impl.BService;
+import com.javalec.dao.BoardDao;
+import com.javalec.impl.BoardService;
 
-public class BWriteService implements BService {
+public class BoardWriteService implements BoardService {
 
     @Override
     public void execute(Model model) {
@@ -18,7 +18,7 @@ public class BWriteService implements BService {
 
         HttpServletRequest request = (HttpServletRequest) map.get("request");
 
-        BDao dao = new BDao();
+        BoardDao dao = new BoardDao();
 
         String bName = request.getParameter("bName");
         String bTitle = request.getParameter("bTitle");

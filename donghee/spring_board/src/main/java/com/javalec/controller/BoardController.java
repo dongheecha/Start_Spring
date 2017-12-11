@@ -2,31 +2,35 @@ package com.javalec.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.javalec.impl.BService;
-import com.javalec.service.BContentService;
-import com.javalec.service.BDeleteService;
-import com.javalec.service.BListService;
-import com.javalec.service.BModifyService;
-import com.javalec.service.BReplyService;
-import com.javalec.service.BReplyViewService;
-import com.javalec.service.BWriteService;
+import com.javalec.impl.BoardService;
+import com.javalec.service.BoardContentService;
+import com.javalec.service.BoardDeleteService;
+import com.javalec.service.BoardListService;
+import com.javalec.service.BoardModifyService;
+import com.javalec.service.BoardReplyService;
+import com.javalec.service.BoardReplyViewService;
+import com.javalec.service.BoardWriteService;
 
 @Controller
-public class BController {
+public class BoardController {
 
-    BService service;
-   
+    private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+
+    BoardService service;
+
     @RequestMapping("/list")
     public String list(Model model) {
 
         System.out.println("list()");
 
-        service = new BListService();
+        service = new BoardListService();
         service.execute(model);
 
         return "list";
@@ -45,7 +49,7 @@ public class BController {
 
         model.addAttribute("request", request);
 
-        service = new BWriteService();
+        service = new BoardWriteService();
         service.execute(model);
 
         return "redirect:list";
@@ -57,7 +61,7 @@ public class BController {
         System.out.println("contentView()");
         model.addAttribute("request", request);
 
-        service = new BContentService();
+        service = new BoardContentService();
         service.execute(model);
 
         return "contentView";
@@ -69,7 +73,7 @@ public class BController {
         System.out.println("modify()");
 
         model.addAttribute("request", request);
-        service = new BModifyService();
+        service = new BoardModifyService();
         service.execute(model);
 
         return "redirect:list";
@@ -80,7 +84,7 @@ public class BController {
         System.out.println("replyView()");
 
         model.addAttribute("request", request);
-        service = new BReplyViewService();
+        service = new BoardReplyViewService();
         service.execute(model);
 
         return "replyView";
@@ -93,7 +97,7 @@ public class BController {
 
         model.addAttribute("request", request);
 
-        service = new BReplyService();
+        service = new BoardReplyService();
         service.execute(model);
 
         return "redirect:list";
@@ -106,10 +110,11 @@ public class BController {
 
         model.addAttribute("request", request);
 
-        service = new BDeleteService();
+        service = new BoardDeleteService();
         service.execute(model);
 
         return "redirect:list";
 
     }
+
 }

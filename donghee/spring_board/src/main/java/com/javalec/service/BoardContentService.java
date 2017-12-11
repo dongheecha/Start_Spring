@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
-import com.javalec.dao.BDao;
-import com.javalec.dto.BDto;
-import com.javalec.impl.BService;
+import com.javalec.dao.BoardDao;
+import com.javalec.dto.BoardDto;
+import com.javalec.impl.BoardService;
 
-public class BContentService implements BService {
+public class BoardContentService implements BoardService {
 
     @Override
     public void execute(Model model) {
@@ -22,8 +22,8 @@ public class BContentService implements BService {
         HttpServletRequest request  = (HttpServletRequest) map.get("request");
         long bId = Long.parseLong(request.getParameter("bId"));
         
-        BDao dao = new BDao();
-        BDto dto = dao.contentView(bId);
+        BoardDao dao = new BoardDao();
+        BoardDto dto = dao.contentView(bId);
         
         model.addAttribute("contentView", dto);
         
