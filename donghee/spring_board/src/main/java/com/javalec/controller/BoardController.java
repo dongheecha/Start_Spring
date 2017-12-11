@@ -27,7 +27,7 @@ public class BoardController {
 
     @RequestMapping("/list")
     public String list(Model model) {
-
+        
         System.out.println("list()");
 
         service = new BoardListService();
