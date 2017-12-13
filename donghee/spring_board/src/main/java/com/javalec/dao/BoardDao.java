@@ -5,42 +5,34 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
-import com.javalec.dto.BDto;
+import com.javalec.dto.BoardDto;
 
-
-public class BDao {
+public class BoardDao {
 
     JdbcTemplate template;
     
-    PlatformTransactionManager transactionManager;
-    
+    @Autowired
     public void setTemplate(JdbcTemplate template) {
         this.template = template;
     }
-    
-    public void setTransactionManager( PlatformTransactionManager transactionManager) {
-        this.transactionManager = transactionManager;
-    }
-    
-    public BDao() {
-        System.out.println(template);
-    }
+ 
+    public BoardDao() {}
 
-    public ArrayList<BDto> list() {
+    public ArrayList<BoardDto> list() {
 
         String query = "select  bId,  bName,  bTitle,  bContent,  bDate,  bHit, "
                 + " bGroup, bStep, bIndent, deleteFlag from mvc_board order by bGroup desc, bStep asc ";
 
-        return (ArrayList<BDto>) template.query(query, new BeanPropertyRowMapper<BDto>(BDto.class));
+        return (ArrayList<BoardDto>) template.query(query, new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
 
     }
 
@@ -66,45 +58,17 @@ public class BDao {
         });
     }
 
-    public BDto contentView(final long bId) {
+    public BoardDto contentView(final long bId) {
 
-        TransactionDefinition definition = new DefaultTransactionDefinition();
-        TransactionStatus status = transactionManager.getTransaction(definition);
+        updateHit(bId);
 
-        // updateHit(bId);
+        BoardDto dto = null;
 
-        BDto dto = null;
-        
-        try {
+        String query = "select  bId,  bName,  bTitle,  bContent,  bDate,  bHit, "
+                + " bGroup, bStep, bIndent, deleteFlag from mvc_board where bId =  " + bId;
 
-            String query1 = "update mvc_board set bHit = bHit + 1  where bId = ?  ";
+        dto = (BoardDto) template.queryForObject(query, new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
 
-            template.update(query1, new PreparedStatementSetter() {
-
-                @Override
-                public void setValues(PreparedStatement pstmt) throws SQLException {
-                    // TODO Auto-generated method stub
-                    pstmt.setLong(1, bId);
-                }
-
-            });
-
-       
-            String query2 = "select  bId,  bName,  bTitle,  bContent,  bDate,  bHit, "
-                    + " bGroup, bStep, bIndent, deleteFlag from mvc_board where bId =  " + bId;
-
-            dto = (BDto) template.queryForObject(query2, new BeanPropertyRowMapper<BDto>(BDto.class));
-
-            transactionManager.commit(status);
-
-            
-            
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            transactionManager.rollback(status);
-        }
-        
         return dto;
     }
 
@@ -157,13 +121,13 @@ public class BDao {
         });
     }
 
-    public BDto replyView(long bId) {
+    public BoardDto replyView(long bId) {
         // TODO Auto-generated method stub
 
         String query = "select  bId,  bName,  bTitle,  bContent,  bDate,  bHit, "
                 + " bGroup, bStep, bIndent, deleteFlag from mvc_board where bId = " + bId;
 
-        return template.queryForObject(query, new BeanPropertyRowMapper<BDto>(BDto.class));
+        return template.queryForObject(query, new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
 
     }
 
@@ -171,16 +135,30 @@ public class BDao {
             final int bStep, final int bIndent) {
         // TODO Auto-generated method stub
 
-        replyShape(bGroup, bStep);
 
-        String query = "insert into mvc_board (bName, bTitle, bContent,bDate, bHit, bGroup, bStep, bIndent, deleteFlag) "
-                + " values(?, ?, ?, now(), 0, ?, ?, ?, 0)";
-
-        template.update(query, new PreparedStatementSetter() {
+        template.update(new PreparedStatementCreator() {
 
             @Override
-            public void setValues(PreparedStatement pstmt) throws SQLException {
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 // TODO Auto-generated method stub
+                String query = "update mvc_board set bHit = bHit + 1  where bId = ?  ";
+                PreparedStatement pstmt = con.prepareStatement(query);
+                pstmt.setLong(1, bId);
+
+                return pstmt;
+            }
+
+        });
+
+        template.update(new PreparedStatementCreator() {
+
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                // TODO Auto-generated method stub
+                String query = "insert into mvc_board (bName, bTitle, bContent,bDate, bHit, bGroup, bStep, bIndent, deleteFlag) "
+                        + " values(?, ?, ?, now(), 0, ?, ?, ?, 0)";
+
+                PreparedStatement pstmt = con.prepareStatement(query);
                 pstmt.setString(1, bName);
                 pstmt.setString(2, bTitle);
                 pstmt.setString(3, bContent);
@@ -188,6 +166,7 @@ public class BDao {
                 pstmt.setInt(5, bStep + 1);
                 pstmt.setInt(6, bIndent + 1);
 
+                return pstmt;
             }
 
         });
@@ -199,7 +178,6 @@ public class BDao {
 
         String query = "update mvc_board set bStep = bStep + 1 where bGroup = ? and bStep > ?";
         template.update(query, new PreparedStatementSetter() {
-
             @Override
             public void setValues(PreparedStatement pstmt) throws SQLException {
                 // TODO Auto-generated method stub

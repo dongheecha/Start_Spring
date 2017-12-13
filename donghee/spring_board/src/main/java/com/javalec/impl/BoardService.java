@@ -2,7 +2,7 @@ package com.javalec.impl;
 
 import org.springframework.ui.Model;
 
-public interface BService {
+public interface BoardService {
 
     public void execute(Model model);
         

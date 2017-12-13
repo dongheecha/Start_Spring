@@ -2,7 +2,7 @@ package com.javalec.dto;
 
 import java.sql.Timestamp;
 
-public class BDto {
+public class BoardDto {
 
     long bId;
     String bName;
@@ -15,11 +15,11 @@ public class BDto {
     int bIndent;
     int deleteFlag;
 
-    public BDto() {
+    public BoardDto() {
 
     }
 
-    public BDto(long bId, String bName, String bTitle, String bContent, Timestamp bDate, int bHit, int bGroup,
+    public BoardDto(long bId, String bName, String bTitle, String bContent, Timestamp bDate, int bHit, int bGroup,
             int bStep, int bIndent, int deleteFlag) {
         this.bId = bId;
         this.bName = bName;
@@ -34,7 +34,7 @@ public class BDto {
 
     }
     
-    public BDto(String bName, String bTitle, String bContent, Timestamp bDate, int bHit, int bGroup,
+    public BoardDto(String bName, String bTitle, String bContent, Timestamp bDate, int bHit, int bGroup,
             int bStep, int bIndent) {
         
         this.bName = bName;

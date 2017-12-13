@@ -9,7 +9,7 @@
 <body>
 
 	<table width="500" cellpadding="0" cellspacing="0" border="1">
-		<form action="reply" method="post">
+		<form action="reply.html" method="post">
 			<input type="hidden" name="bId" value="${replyView.bId}">
 			<input type="hidden" name="bGroup" value="${replyView.bGroup}">
 			<input type="hidden" name="bStep" value="${replyView.bStep}">
@@ -35,7 +35,7 @@
 				<td> <textarea rows="10"  name="bContent">${replyView.bContent}</textarea></td>
 			</tr>
 			<tr >
-				<td colspan="2"><input type="submit" value="답변"> <a href="list" >목록</a></td>
+				<td colspan="2"><input type="submit" value="답변"> <a href="list.html" >목록</a></td>
 			</tr>
 		</form>
 	</table>

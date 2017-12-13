@@ -24,14 +24,14 @@
 					<td>${dto.bId}</td>
 					<td>${dto.bName}</td>
 					<td><c:forEach begin="1" end="${dto.bIndent}">-</c:forEach> <a
-						href="contentView?bId=${dto.bId}">${dto.bTitle}</a></td>
+						href="contentView.html?bId=${dto.bId}">${dto.bTitle}</a></td>
 					<td>${dto.bDate}</td>
 					<td>${dto.bHit}</td>
 				</tr>
             </c:if>
 		</c:forEach>
 		<tr>
-			<td colspan="5"><a href="writeView">글작성</a></td>
+			<td colspan="5"><a href="writeView.html">글작성</a></td>
 		</tr>
 	</table>
 
