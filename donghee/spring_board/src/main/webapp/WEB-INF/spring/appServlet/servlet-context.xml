@@ -9,9 +9,6 @@
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
-	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
-
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
@@ -21,9 +18,11 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<annotation-driven />
+	
 	<!-- 이 패키지 이하의 있는 녀석들을 스캔해서 @controller 어노테이션 붙은 녀석을 컨트롤러로 생각해서 @RequestMapping이라고 붙인 애들을 request가찾는다. -->
 	<context:component-scan base-package="com.javalec.controller" />
-	
+		
 	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	   <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"></beans:property>
 	   <beans:property name="url" value="jdbc:mysql://localhost:3306/simple_spring"></beans:property>
@@ -35,19 +34,8 @@
 	   <beans:property name="dataSource" ref="dataSource"></beans:property>
 	</beans:bean>
 	
-	<beans:bean name ="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-       <beans:property name="dataSource" ref="dataSource"></beans:property>
-    </beans:bean>
-    
-	
-	<beans:bean name="transactionTemplate" class = "org.springframework.transaction.support.TransactionTemplate">
-	   <beans:property name="transactionManager" ref ="transactionManager"></beans:property>
-	</beans:bean>
-	
-	
 	<beans:bean name="dao" class="com.javalec.dao.BoardDao">
 	   <beans:property name="template" ref="template"></beans:property>
-	   <beans:property name="transactionTemplate" ref="transactionTemplate"></beans:property>
 	</beans:bean>
 	
 </beans:beans>

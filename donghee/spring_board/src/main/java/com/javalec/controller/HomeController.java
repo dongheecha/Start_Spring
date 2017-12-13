@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 
 @Controller
 public class HomeController {
@@ -19,7 +19,7 @@ public class HomeController {
     /**
      * Simply selects the home view to render by returning its name.
      */
-    @RequestMapping(value = "/index.html", method = RequestMethod.GET)
+    @RequestMapping("/index.html")
     public String home(Locale locale, Model model) {
         logger.info("Welcome home! The client locale is {}.", locale);
         
@@ -36,7 +36,7 @@ public class HomeController {
     @RequestMapping("/login.html")
     public String login(Locale locale, Model model) {
         
-        return "redirect:list";
+        return "redirect:list.html";
     }
     
     @RequestMapping("/welcome.html")

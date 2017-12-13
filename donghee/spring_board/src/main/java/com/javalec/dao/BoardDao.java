@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -18,20 +19,13 @@ import com.javalec.dto.BoardDto;
 public class BoardDao {
 
     JdbcTemplate template;
-
-    TransactionTemplate transactionTemplate;
-
+    
+    @Autowired
     public void setTemplate(JdbcTemplate template) {
         this.template = template;
     }
-
-    public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
-        this.transactionTemplate = transactionTemplate;
-    }
-
-    public BoardDao() {
-        System.out.println(template);
-    }
+ 
+    public BoardDao() {}
 
     public ArrayList<BoardDto> list() {
 
@@ -141,46 +135,38 @@ public class BoardDao {
             final int bStep, final int bIndent) {
         // TODO Auto-generated method stub
 
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+        template.update(new PreparedStatementCreator() {
 
             @Override
-            protected void doInTransactionWithoutResult(TransactionStatus arg0) {
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 // TODO Auto-generated method stub
+                String query = "update mvc_board set bHit = bHit + 1  where bId = ?  ";
+                PreparedStatement pstmt = con.prepareStatement(query);
+                pstmt.setLong(1, bId);
 
-                template.update(new PreparedStatementCreator() {
+                return pstmt;
+            }
 
-                    @Override
-                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                        // TODO Auto-generated method stub
-                        String query = "update mvc_board set bHit = bHit + 1  where bId = ?  ";
-                        PreparedStatement pstmt = con.prepareStatement(query);
-                        pstmt.setLong(1, bId);
+        });
 
-                        return pstmt;
-                    }
+        template.update(new PreparedStatementCreator() {
 
-                });
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                // TODO Auto-generated method stub
+                String query = "insert into mvc_board (bName, bTitle, bContent,bDate, bHit, bGroup, bStep, bIndent, deleteFlag) "
+                        + " values(?, ?, ?, now(), 0, ?, ?, ?, 0)";
 
-                template.update(new PreparedStatementCreator() {
+                PreparedStatement pstmt = con.prepareStatement(query);
+                pstmt.setString(1, bName);
+                pstmt.setString(2, bTitle);
+                pstmt.setString(3, bContent);
+                pstmt.setInt(4, bGroup);
+                pstmt.setInt(5, bStep + 1);
+                pstmt.setInt(6, bIndent + 1);
 
-                    @Override
-                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                        // TODO Auto-generated method stub
-                        String query = "insert into mvc_board (bName, bTitle, bContent,bDate, bHit, bGroup, bStep, bIndent, deleteFlag) "
-                                + " values(?, ?, ?, now(), 0, ?, ?, ?, 0)";
-
-                        PreparedStatement pstmt = con.prepareStatement(query);
-                        pstmt.setString(1, bName);
-                        pstmt.setString(2, bTitle);
-                        pstmt.setString(3, bContent);
-                        pstmt.setInt(4, bGroup);
-                        pstmt.setInt(5, bStep + 1);
-                        pstmt.setInt(6, bIndent + 1);
-
-                        return pstmt;
-                    }
-
-                });
+                return pstmt;
             }
 
         });
