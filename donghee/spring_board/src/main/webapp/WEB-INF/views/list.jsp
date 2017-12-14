@@ -24,7 +24,7 @@
 					<td>${dto.bId}</td>
 					<td>${dto.bName}</td>
 					<td><c:forEach begin="1" end="${dto.bIndent}">-</c:forEach> <a
-						href="contentView.html?bId=${dto.bId}">${dto.bTitle}</a></td>
+						href="contentView.html?id=${dto.bId}">${dto.bTitle}</a></td>
 					<td>${dto.bDate}</td>
 					<td>${dto.bHit}</td>
 				</tr>
