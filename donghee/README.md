@@ -1,3 +1,3 @@
-2017-12-11 inflearn ~ Chapter.26    
+2017-12-14 inflearn one cycle completed.
 
 added spring security version 3.2.5
