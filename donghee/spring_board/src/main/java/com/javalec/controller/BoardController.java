@@ -1,130 +1,114 @@
 package com.javalec.controller;
 
-import java.util.ArrayList;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.javalec.dao.BoardDao;
 import com.javalec.dto.BoardDto;
+import com.javalec.dto.MvcBoardExample;
+import com.javalec.service.BoardService;
 
 @Controller
 public class BoardController {
 
-    BoardDao dao;
+	@Autowired
+	private BoardService boardService;
 
-    @Autowired
-    public void setDao(BoardDao dao) {
-        this.dao = dao;
-    }
+	@RequestMapping("/list.html")
+	public String list(Model model) {
 
-    @RequestMapping("/list.html")
-    public String list(Model model) {
+		System.out.println("list()");
 
-        System.out.println("list()");
+		model.addAttribute("list", boardService.getBoardList());
 
-        ArrayList<BoardDto> dtos = dao.list();
-        model.addAttribute("list", dtos);
+		return "list";
+	}
 
-        return "list";
-    }
+	@RequestMapping("/writeView.html")
+	public String writeView(Model model) {
+		System.out.println("writeView()");
 
-    @RequestMapping("/writeView.html")
-    public String writeView( Model model) {
-        System.out.println("writeView()");
+		return "writeView";
+	}
 
+	@RequestMapping("/write.html")
+	public String write(@ModelAttribute BoardDto dto) {
+		System.out.println("write()");
 
-        return "writeView";
-    }
+		int result = boardService.insertBoard(dto);
 
-    @RequestMapping("/write.html")
-    public String write(HttpServletRequest request, Model model) {
-        System.out.println("write()");
+		if (result == 0)
+			return "redirect:error.html";
+		else
+			return "redirect:list.html";
+	}
 
-        String bName = request.getParameter("bName");
-        String bTitle = request.getParameter("bTitle");
-        String bContent = request.getParameter("bContent");
+	@RequestMapping("contentView.html")
+	public String contentView(@RequestParam("id") long id, Model model) {
 
-        dao.write(bName, bTitle, bContent);
+		System.out.println("contentView()");
 
-        return "redirect:list.html";
-    }
+		model.addAttribute("contentView", boardService.getBoard(id));
+		int result = boardService.modifyBoardHit(id);
 
-    @RequestMapping("contentView.html")
-    public String contentView(HttpServletRequest request, Model model) {
+		if (result == 0)
+			return "redirect:error.html";
+		else
+			return "contentView";
+	}
 
-        System.out.println("contentView()");
+	@RequestMapping(method = RequestMethod.POST, value = "/modify.html")
+	public String modify(@ModelAttribute BoardDto dto) {
+		System.out.println("modify()");
 
-        long bId = Long.parseLong(request.getParameter("bId"));
+		int result = boardService.modifyBoard(dto);
 
-        BoardDto dto = dao.contentView(bId);
+		if (result == 0)
+			return "redirect:error.html";
+		else
+			return "redirect:list.html";
+	}
 
-        model.addAttribute("contentView", dto);
+	@RequestMapping("/replyView.html")
+	public String replyView(@RequestParam("bId") long id, Model model) {
+		System.out.println("replyView()");
 
-        return "contentView";
+		model.addAttribute("replyView", boardService.getBoard(id));
+		int result = boardService.modifyBoardHit(id);
 
-    }
+		if (result == 0)
+			return "redirect:error.html";
+		else
+			return "replyView";
 
-    @RequestMapping(method = RequestMethod.POST, value = "/modify.html")
-    public String modify(HttpServletRequest request, Model model) {
-        System.out.println("modify()");
+	}
 
-        long bId = Long.parseLong(request.getParameter("bId"));
-        String bName = request.getParameter("bName");
-        String bTitle = request.getParameter("bTitle");
-        String bContent = request.getParameter("bContent");
+	@RequestMapping("/reply.html")
+	public String reply(@ModelAttribute BoardDto dto) {
 
-        dao.modify(bId, bName, bTitle, bContent);
+		System.out.println("reply()");
 
-        return "redirect:list.html";
-    }
+		int result = boardService.insertBoardReply(dto);
 
-    @RequestMapping("/replyView.html")
-    public String replyView(HttpServletRequest request, Model model) {
-        System.out.println("replyView()");
+		if (result == 0)
+			return "redirect:error.html";
+		else
+			return "redirect:list.html";
+	}
 
-        long bId = Long.parseLong(request.getParameter("bId"));
+	@RequestMapping("/delete.html")
+	public String delete(@RequestParam("bId") long id) {
 
-        BoardDto dto = dao.replyView(bId);
+		int result = boardService.deleteBoard(id);
 
-        model.addAttribute("replyView", dto);
-
-        return "replyView";
-    }
-
-    @RequestMapping("/reply.html")
-    public String reply(HttpServletRequest request, Model model) {
-
-        System.out.println("reply()");
-
-        long bId = Long.parseLong(request.getParameter("bId"));
-        String bName = request.getParameter("bName");
-        String bTitle = request.getParameter("bTitle");
-        String bContent = request.getParameter("bContent");
-        int bGroup = Integer.parseInt(request.getParameter("bGroup"));
-        int bStep = Integer.parseInt(request.getParameter("bStep"));
-        int bIndent = Integer.parseInt(request.getParameter("bIndent"));
-
-        dao.reply(bId, bName, bTitle, bContent, bGroup, bStep, bIndent);
-
-        return "redirect:list.html";
-    }
-
-    @RequestMapping("/delete.html")
-    public String delete(HttpServletRequest request, Model model) {
-
-        long bId = Long.parseLong(request.getParameter("bId"));
-
-        dao.delete(bId);
-
-        return "redirect:list.html";
-
-    }
+		if (result == 0)
+			return "redirect:error.html";
+		else
+			return "redirect:list.html";
+	}
 
 }

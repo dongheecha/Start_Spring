@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd ">
+<mapper namespace="com.javalec.sample.board_mapper">
+
+	<select id="getBoardList" resultType="hashMap">
+
+		SELECT * FROM MVC_BOARD;
+
+	</select>
+
+	<insert id="insertBoard" parameterType="boardDto">
+
+		INSERT INTO MVC_BOARD (
+		BNAME,
+		BTITLE,
+		BCONTENT,
+		BDATE,
+		BHIT,
+		BGROUP,
+		BSTEP,
+		BINDENT,
+		DELETEFLAG
+		)
+		VALUES(
+		#{bName},
+		#{bTitle},
+		#{bContent},
+		NOW(),
+		0,
+		(( SELECT MAX(BID) + 1
+		FROM MVC_BOARD A)),
+		0,
+		0,
+		0
+		)
+
+
+	</insert>
+	<select id="getBoard" parameterType="long" resultType="boardDto">
+
+		SELECT *
+		FROM MVC_BOARD
+		WHERE BID = #{id};
+
+	</select>
+	<update id="modifyBoard" parameterType="boardDto">
+
+		UPDATE MVC_BOARD SET
+		BNAME = #{bName},
+		BTITLE = #{bTitle},
+		BCONTENT = #{bContent}
+		WHERE BID =
+		#{bId}
+
+	</update>
+
+	<update id="modifyBoardHit" parameterType="long">
+
+		UPDATE MVC_BOARD SET
+		BHIT = BHIT + 1
+		WHERE BID = #{id}
+
+	</update>
+	<insert id="insertBoardReply" parameterType="boardDto">
+
+		INSERT
+		INTO MVC_BOARD (
+		BNAME,
+		BTITLE,
+		BCONTENT,
+		BDATE,
+		BHIT,
+		BGROUP,
+		BSTEP,
+		BINDENT,
+		DELETEFLAG
+		)
+		VALUES(
+		#{bName},
+		#{bTitle},
+		#{bContent},
+		NOW(),
+		0,
+		#{bGroup},
+		${bStep} + 1,
+		${bIndent} + 1,
+		0
+		)
+
+	</insert>
+	
+	<update id="deleteBoard" parameterType="long">
+
+		UPDATE MVC_BOARD SET DELETEFLAG = 1
+		WHERE BID = #{id}
+
+	</update>
+
+
+</mapper>

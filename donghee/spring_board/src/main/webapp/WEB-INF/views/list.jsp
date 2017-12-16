@@ -18,15 +18,16 @@
 			<td>히트</td>
 		</tr>
 		<c:forEach items="${list}" var="dto">
-            <c:if test="${dto.deleteFlag eq 0}">
+		
+            <c:if test="${dto.deleteflag eq 0}">
 				<tr>
 	
-					<td>${dto.bId}</td>
-					<td>${dto.bName}</td>
-					<td><c:forEach begin="1" end="${dto.bIndent}">-</c:forEach> <a
-						href="contentView.html?bId=${dto.bId}">${dto.bTitle}</a></td>
-					<td>${dto.bDate}</td>
-					<td>${dto.bHit}</td>
+					<td>${dto.bid}</td>
+					<td>${dto.bname}</td>
+					<td><c:forEach begin="1" end="${dto.bindent}">-</c:forEach> <a
+						href="contentView.html?id=${dto.bid}">${dto.btitle}</a></td>
+					<td>${dto.bdate}</td>
+					<td>${dto.bhit}</td>
 				</tr>
             </c:if>
 		</c:forEach>
