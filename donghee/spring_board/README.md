@@ -13,10 +13,16 @@ Getting Start
 
     setting db URL, UserName, UserPassword
 
-3. classpath:LogBack.xml
+3. classpath:LogBack.xml (option)
 
     setting File Output path (Default d:)
     
+4. generatorConfig.xml (in project root path)
+
+    setting <classPathEntry location="[mysql library]" />
+    setting db URL, UserName, UserPassword
+
+5. Run Project
     
 
   
