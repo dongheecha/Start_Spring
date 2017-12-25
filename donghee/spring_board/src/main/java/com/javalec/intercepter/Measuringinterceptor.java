@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class Measuringinterceptor extends HandlerInterceptorAdapter {
@@ -24,6 +25,7 @@ public class Measuringinterceptor extends HandlerInterceptorAdapter {
         //  컨트롤러 -> DS : 응답을 받아주기 위헤
         //  현재 시간을 모델에 넣는다.
         request.setAttribute("bTime", currentTime);
+        
         
         return true;
     }
