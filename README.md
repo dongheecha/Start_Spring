@@ -1,1 +1,2 @@
-Apply https://cg-codeguru.slack.com (Slack)
+	2017-12-14 inflearn one cycle completed.
+
