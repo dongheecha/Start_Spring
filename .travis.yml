@@ -1,9 +1,8 @@
-
 language: java
 jdk:
- - oraclejdk8
+- oraclejdk8
 deploy:
- provider: heroku
- api_key: 
-  secure: 6f12be4c-6765-4195-916c-340395cdffd3
- app: my-app-123
+  provider: heroku
+  api_key:
+    secure: NbbkZgbYZJwSr5kla1kinyh4V4hu4GbEN4OWAhKL5ZPjk02FPYKlhBmxOlH1a3M+x2e4ersqxYhQa0duLwodtqabEN8pa/4Du0H+2zxFxU7IQZvgWfmi2SxkT+FYjVtxsBSPHSBzbtYNtJ256RAkThEkZ2O1ugbmjhwaA+ZQOZu1cStX7Zdcs62KkwKInwEniWOqZfbIVvcnwRRM9MuG8sasFwlU+74lBtlyLBeik4Nzxefo3w0g9MvQDHNpatgsmh8QHrI3b+f+/SThq52pH9B6936fbEST67LVrJJ2F8sCHYLFsuyf3UgumFkL2/Bglojp5KVXdpNJdsb43QHnYKUdX53gD641KDQ8kvweXupUXHPVxTS6vCbaS3s/U+32wkM83Y/skQIBl6eMEnBjgZd65VLTz8OlQL2nSylgM6NGMv27V3iSp354Omcid8GjgJBpAU8BQ2iS2taqhchS0xXQLdHz01FjbxV4f8xt/WkrlH73tcjpyYgrCqrWbbVq66grD1BhyYZmX621F5H/29TmECSvsj01Z15eFRHIbqhYaFtnw6x5wZtoKqX8u+nPGkCbYj6rXD9Cna1GZtFmGeQTBK/zMxYafEcy2d+dxZm8KCMGSXbXQRUEmS8L1rFIQ8mElbbvfXKzZpxnri1+GUYsWBuJ1Pa6xP4Czv5vmTY=
+  app: my-app-123
