@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:beans="http://www.springframework.org/schema/beans"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans.xsd
+                    http://www.springframework.org/schema/security
+                    http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+  <http auto-config="true">
+    <form-login login-page="/loginForm.html" username-parameter="username" password-parameter="password" 
+        authentication-failure-url="/loginForm.html?ng" />
+    <intercept-url pattern="/login.html" access="ROLE_USER" />  <!-- donghee 만 /login.html을 허가하겠다 -->
+    <intercept-url pattern="/welcome.html" access="ROLE_ADMIN"/> 
+    <http-basic/>
+    <logout logout-success-url="/login.html" />
+  
+  </http>
+
+  <!-- 위의 페이지를 누가 들어갈 수 있는 설정하는 부분 -->
+  <authentication-manager>
+    <authentication-provider>
+          <user-service>
+               <user name="guest" password="guest" authorities="ROLE_USER"/>    
+          </user-service>   
+      </authentication-provider>
+   </authentication-manager>
+</beans:beans>
