@@ -1,7 +1,12 @@
 language: java
+jdk:
+    - oraclejdk8
 deploy :
         provider : heroku
         api_key : 
-                secure : "3~e5d37bd8-a3d0-417a-9f6d-3acf7ed9e4d7"
+                secure : 3~e5d37bd8-a3d0-417a-9f6d-3acf7ed9e4d7
+        app: Start_Spring
         on :
-                condition : "jdk = 1.8"
+            repo: dongheecha/Start_Spring
+
+
