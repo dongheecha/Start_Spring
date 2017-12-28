@@ -5,7 +5,5 @@ deploy :
         provider : heroku
         api_key : 
                 secure : "6f12be4c-6765-4195-916c-340395cdffd3"
-        on :
-            repo: dongheecha/Start_Spring
 
 
