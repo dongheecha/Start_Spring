@@ -19,8 +19,6 @@
 	<resources location="/WEB-INF/views/js/" mapping="/js/**" />
 	<resources location="/WEB-INF/static/" mapping="/static/**" />
 	
-	
-	
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->

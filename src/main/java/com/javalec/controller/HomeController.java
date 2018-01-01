@@ -31,7 +31,7 @@ public class HomeController {
         model.addAttribute("name", name);
         return "static/greeting.html";
       }
-    @RequestMapping("/index.html")
+    @RequestMapping("/home")
     public String home(Locale locale, Model model) {
         logger.info("Welcome home! The client locale is {}.", locale);
         
@@ -42,7 +42,7 @@ public class HomeController {
         
         model.addAttribute("serverTime", formattedDate );
         
-        return "home";
+        return "static/home.html";
     }
     
     @RequestMapping("/login.html")
