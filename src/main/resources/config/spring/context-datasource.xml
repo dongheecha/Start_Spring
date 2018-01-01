@@ -14,9 +14,9 @@
 	<beans:bean name="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"></beans:property>
-        <beans:property name="url" value="jdbc:mysql://localhost:3306/simple_spring"></beans:property>
-        <beans:property name="username" value="tester"></beans:property>
-        <beans:property name="password" value="tester123@"></beans:property>
+        <beans:property name="url" value="jdbc:mysql://us-cdbr-iron-east-05.cleardb.net:3306/mvc_board"></beans:property>
+        <beans:property name="username" value="b3d98a0a2e32fa"></beans:property>
+        <beans:property name="password" value="e3fd13fa"></beans:property>
     </beans:bean>
  
 </beans:beans>
