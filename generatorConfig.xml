@@ -6,7 +6,7 @@
 	<classPathEntry
 		location="C:\Users\ddong\.m2\repository\mysql\mysql-connector-java\5.1.18\mysql-connector-java-5.1.18.jar" />
 	<context id="context1">
-		<jdbcConnection connectionURL="jdbc:mysql://us-cdbr-iron-east-05.cleardb.net:3306/mvc_board"
+		<jdbcConnection connectionURL="jdbc:mysql://us-cdbr-iron-east-05.cleardb.net/mvc_board"
 			driverClass="com.mysql.jdbc.Driver" password="e3fd13fa" userId="b3d98a0a2e32fa" />
 		<javaModelGenerator targetPackage="com.javalec.dto"
 			targetProject="spring_board" />
