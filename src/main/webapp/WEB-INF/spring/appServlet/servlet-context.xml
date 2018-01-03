@@ -17,6 +17,8 @@
 	<resources location="/WEB-INF/views/images/" mapping="/images/**" />
 	<resources location="/WEB-INF/views/css/" mapping="/css/**" />
 	<resources location="/WEB-INF/views/js/" mapping="/js/**" />
+	<resources location="/WEB-INF/views/security/" mapping="/security/**" />
+	<resources location="/WEB-INF/views/" mapping="/views/**" />
 	<resources location="/WEB-INF/static/" mapping="/static/**" />
 	
 	
