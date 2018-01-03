@@ -1,8 +1,17 @@
  
-Component
+ 
+Start Spring 
+=============
+ 
+[![Build Status](https://travis-ci.org/dongheecha/Start_Spring.svg?branch=developer)](https://travis-ci.org/dongheecha/Start_Spring)
+ 
+## Component
 
 	Mybatis
- 	Logback
+		* Generator Config
+			* Refernce : http://www.mybatis.org/generator/running/runningWithEclipse.html
+	Logback
+	
 	
 Getting Start 
 
@@ -23,6 +32,9 @@ Getting Start
     setting db URL, UserName, UserPassword
 
 5. Run Project
+
+
+
     
 
   
