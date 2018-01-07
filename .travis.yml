@@ -1,4 +1,8 @@
+ notifications:
+    slack: cg-codeguru:18tGNGNnfUzZzzhLQ5A4hvZb
+
 language: java
+
 jdk:
 - oraclejdk8
 deploy:
