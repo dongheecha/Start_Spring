@@ -1,0 +1,19 @@
+{
+/*
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "freeze": true,
+  "latedef": true,
+  "noempty": true,
+  "nonew": true,
+  "undef": true,
+  "unused": true,
+  //ENVIRONMENT
+  "globals": {
+    "Ext":true
+  },
+*/
+  "browser": true,
+  "devel": true
+}

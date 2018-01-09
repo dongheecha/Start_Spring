@@ -18,14 +18,14 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping("/list.html")
+	@RequestMapping("/list")
 	public String list(Model model) {
 
 		System.out.println("list()");
 
 		model.addAttribute("list", boardService.getBoardList());
 
-		return "list";
+		return "views/list.html";
 	}
 
 	@RequestMapping("/writeView.html")
